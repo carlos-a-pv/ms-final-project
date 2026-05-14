@@ -1,0 +1,157 @@
+
+services:
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+     - "5762:5672"
+     - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - ms-network
+
+
+  mongo:
+    image: mongo:7.0-jammy
+    container_name: db-notifications
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: notifications_user
+      MONGO_INITDB_ROOT_PASSWORD: notifications_pass
+      MONGO_INITDB_DATABASE: notifications_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - db-notifications-data:/data/db
+    networks:
+      - ms-network
+
+  db-profiles:
+    image: mongo:7.0-jammy
+    container_name: db-profiles
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: profiles_user
+      MONGO_INITDB_ROOT_PASSWORD: profiles_pass
+      MONGO_INITDB_DATABASE: profiles_db
+    ports:
+      - "27018:27017"
+    volumes:
+      - db-profiles-data:/data/db
+    networks:
+      - ms-network
+
+  db-employees:
+    image: postgres:16-alpine
+    container_name: db-employees
+    restart: always
+    environment:
+      POSTGRES_DB: employees_db
+      POSTGRES_USER: employees_user
+      POSTGRES_PASSWORD: employees_pass
+    volumes:
+      - db-employees-data:/var/lib/postgresql/data
+    networks:
+      - ms-network
+
+  db-departments:
+    image: postgres:16-alpine
+    container_name: db-departments
+    restart: always
+    environment:
+      POSTGRES_DB: departments_db
+      POSTGRES_USER: departments_user
+      POSTGRES_PASSWORD: departments_pass
+    volumes:
+      - db-departments-data:/var/lib/postgresql/data
+    networks:
+      - ms-network
+
+  ms-employees:
+    build:
+      context: ./ms-employees
+    container_name: ms-employees
+    depends_on:
+      - db-employees
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-employees:5432/employees_db
+      SPRING_DATASOURCE_USERNAME: employees_user
+      SPRING_DATASOURCE_PASSWORD: employees_pass
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+    ports:
+      - "8080:8080"
+    networks:
+      - ms-network
+
+
+  ms-departments:
+    build:
+      context: ./ms-departments
+    container_name: ms-departments
+    depends_on:
+      - db-departments
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-departments:5432/departments_db
+      SPRING_DATASOURCE_USERNAME: departments_user
+      SPRING_DATASOURCE_PASSWORD: departments_pass
+    ports:
+      - "8081:8081"
+    networks:
+      - ms-network
+
+  ms-notifications:
+    build:
+      context: ./ms-notifications
+    container_name: ms-notifications
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - mongo
+    environment:
+      MONGODB_URI: mongodb://notifications_user:notifications_pass@mongo:27017/notifications_db?authSource=admin
+      MONGODB_DB: notifications_db
+      RABBITMQ_URI: amqp://guest:guest@rabbitmq:5672/
+      RABBITMQ_QUEUE: notification.events.queue
+    ports:
+      - "8083:8000"
+    networks:
+      - ms-network
+
+  ms-profiles:
+    build:
+      context: ./ms-profiles
+    container_name: ms-profiles
+    restart: always
+    depends_on:
+      - rabbitmq
+      - db-profiles
+    environment:
+      MONGO_URI: mongodb://profiles_user:profiles_pass@db-profiles:27017/profiles_db?authSource=admin
+      MONGO_DB: profiles_db
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+      RABBITMQ_USERNAME: guest
+      RABBITMQ_PASSWORD: guest
+    ports:
+       - "8084:8080"
+    networks:
+      - ms-network
+
+
+volumes:
+  db-employees-data:
+  db-departments-data:
+  db-notifications-data:
+  db-profiles-data:
+
+networks:
+  ms-network:
+    driver: bridge

@@ -1,0 +1,44 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: ms-notifications-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  mongo:
+    image: mongo:7
+    container_name: ms-notifications-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: 123456
+      MONGO_INITDB_DATABASE: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ms-notifications-api
+    restart: unless-stopped
+    environment:
+      MONGODB_URI: mongodb://admin:123456@mongo:27017/mongodb?authSource=admin
+      MONGODB_DB: mongodb
+      RABBITMQ_URI: amqp://guest:guest@rabbitmq:5672/
+      RABBITMQ_ONBOARDING_EXCHANGE: onboarding.exchange
+      RABBITMQ_ONBOARDING_QUEUE: notification.onboarding.queue
+      RABBITMQ_OFFBOARDING_EXCHANGE: offboarding.exchange
+      RABBITMQ_OFFBOARDING_QUEUE: notification.offboarding.queue
+    ports:
+      - "8083:8000"
+    depends_on:
+      - rabbitmq
+      - mongo
+
+volumes:
+  mongo_data:

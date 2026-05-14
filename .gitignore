@@ -1,0 +1,189 @@
+# =========================================================
+# GLOBAL
+# =========================================================
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Temp files
+tmp/
+temp/
+*.tmp
+
+# Archives
+*.zip
+*.tar
+*.gz
+*.rar
+
+# =========================================================
+# NODE.JS / JAVASCRIPT / TYPESCRIPT
+# =========================================================
+
+node_modules/
+dist/
+build/
+coverage/
+
+# Frameworks
+.next/
+.nuxt/
+.svelte-kit/
+.angular/
+out/
+
+# Vite
+vite.svg
+
+# Package managers
+.pnpm-store/
+.npm/
+.yarn/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# TypeScript
+*.tsbuildinfo
+
+# =========================================================
+# SPRING BOOT / JAVA
+# =========================================================
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Spring Boot
+spring.log
+
+# =========================================================
+# PYTHON / FASTAPI
+# =========================================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Python build
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Type checkers
+.mypy_cache/
+.pyre/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# FastAPI
+.fastapi/
+
+# =========================================================
+# IDEs / EDITORS
+# =========================================================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# VSCode
+.vscode/
+
+# Windsurf
+.windsurf/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# =========================================================
+# DOCKER
+# =========================================================
+
+docker-compose.override.yml
+
+# =========================================================
+# TESTING / REPORTS
+# =========================================================
+
+coverage/
+reports/
+allure-results/
+allure-report/
+
+# =========================================================
+# SECURITY
+# =========================================================
+
+# Keys & certificates
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+
+# =========================================================
+# MISC
+# =========================================================
+
+.cache/
+.sass-cache/
+.eslintcache
+
+# Mac resource forks
+._*
