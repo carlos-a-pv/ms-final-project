@@ -1,8 +1,12 @@
 const jwt = require('jsonwebtoken');
 
-const SECRET = 'mi_clave_secreta';
+const SECRET = process.env.JWT_SECRET || 'mi_clave_secreta';
 
 module.exports = (req, res, next) => {
+  if (req.path === '/health') {
+    return next();
+  }
+
   const token = req.headers['authorization'];
 
   if (!token) {
