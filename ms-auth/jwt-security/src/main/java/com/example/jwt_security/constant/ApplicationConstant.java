@@ -8,4 +8,7 @@ public class ApplicationConstant {
     public static final String CUSTOMER = "Customer";
     public static final String ADMIN = "Admin";
     public static final String INVALID_CREDENTIALS = "Invalid credentials";
+    public static final String USER_DISABLED = "User disabled/unathorized";
+    public static final String TOKEN_INVALID = "Token invalid";
+    public static final String TOKEN_EXPIRED = "Token expired";
 }

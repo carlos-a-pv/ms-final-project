@@ -25,4 +25,22 @@ public class GlobalExceptionHandler {
         ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getMessage(), 409);
         return ResponseEntity.status(409).body(errorResponse);
     }
+
+    @ExceptionHandler(UserDisabledException.class)
+    public ResponseEntity<ErrorResponseDTO> handleUserDisabledException(UserDisabledException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getMessage(), 401);
+        return ResponseEntity.status(401).body(errorResponse);
+    }
+
+    @ExceptionHandler(TokenInvalidException.class)
+    public ResponseEntity<ErrorResponseDTO> handleTokenInvalidException(TokenInvalidException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getMessage(), 401);
+        return ResponseEntity.status(401).body(errorResponse);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInvalidCredentialsException(InvalidCredentialsException ex) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(ex.getMessage(), 401);
+        return ResponseEntity.status(401).body(errorResponse);
+    }
 }

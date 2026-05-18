@@ -15,9 +15,8 @@ public class AppConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
+    /*@Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
-    }
+    }*/
 }
