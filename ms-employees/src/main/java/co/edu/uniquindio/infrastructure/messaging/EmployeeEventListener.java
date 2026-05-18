@@ -25,7 +25,7 @@ public class EmployeeEventListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleEmployeeCreated(EmployeeCreatedEvent event){
         try{
-            Employee employee = event.getEmployee();
+            Employee employee = event.employee();
 
             messageProducerService.sendMessage(
                     EmployeeCreatedEventDTO.builder()
@@ -43,7 +43,7 @@ public class EmployeeEventListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleEmployeeDeleted(EmployeeDeletedEvent event){
         try {
-            Employee employee = event.getEmployee();
+            Employee employee = event.employee();
 
             messageProducerService.sendMessage(
                     EmployeeDeletedEventDTO.builder()

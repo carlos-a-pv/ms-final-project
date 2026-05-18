@@ -21,6 +21,7 @@ public class RabbitMQConfig {
 
     public static final String NOTIFICATION_ONBOARDING_QUEUE = "notification.onboarding.queue";
     public static final String PROFILE_ONBOARDING_QUEUE = "profile.onboarding.queue";
+    public static final String AUTH_ONBOARDING_QUEUE = "auth.onboarding.queue";
 
     @Bean
     public FanoutExchange onboardingExchange() {
@@ -38,6 +39,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue authOnboardingQueue() {
+        return new Queue(AUTH_ONBOARDING_QUEUE, true);
+    }
+
+    @Bean
     public Binding notificationOnboardingBinding(Queue notificationOnboardingQueue, FanoutExchange onboardingExchange) {
         return BindingBuilder.bind(notificationOnboardingQueue).to(onboardingExchange);
     }
@@ -45,6 +51,11 @@ public class RabbitMQConfig {
     @Bean
     public Binding profileBindOnboarding(Queue profileOnboardingQueue, FanoutExchange onboardingExchange) {
         return BindingBuilder.bind(profileOnboardingQueue).to(onboardingExchange);
+    }
+
+    @Bean
+    public Binding authBindOnboarding(Queue authOnboardingQueue, FanoutExchange onboardingExchange) {
+        return BindingBuilder.bind(authOnboardingQueue).to(onboardingExchange);
     }
 
     @Bean

@@ -1,14 +1,7 @@
 package co.edu.uniquindio.infrastructure.events;
 
 import co.edu.uniquindio.model.Employee;
-import lombok.Getter;
 
-@Getter
-public class EmployeeDeletedEvent {
+public record EmployeeDeletedEvent(Employee employee) {
 
-    private final Employee employee;
-
-    public EmployeeDeletedEvent(Employee employee) {
-        this.employee = employee;
-    }
 }

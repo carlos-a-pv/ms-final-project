@@ -24,12 +24,11 @@ public class MessageProducerService implements IMessageProducerService {
         }catch(Exception e){
             throw new EventPublisingException("Error enviando evento EMPLOYEE_CREATED", e);
         }
-
     }
 
     @Override
     public void sendMessage(EmployeeDeletedEventDTO message) {
         EventEnvelope<EmployeeDeletedEventDTO> event = EventEnvelope.of("EMPLOYEE_DELETED", "employee-service", message);
-        rabbitTemplate.convertAndSend(RabbitMQConfig.OFFBOARDING_EXCHANGE, "", event);
+        rabbitTemplate.convertAndSend(RabbitMQConfig.ONBOARDING_EXCHANGE, "", event);
     }
 }

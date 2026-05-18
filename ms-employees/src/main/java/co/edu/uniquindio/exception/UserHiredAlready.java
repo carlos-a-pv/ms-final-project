@@ -10,7 +10,7 @@ import java.time.Instant;
 public class UserHiredAlready extends ErrorResponseException {
 
     public UserHiredAlready(Long id, String path) {
-        super(HttpStatus.CONFLICT, problemDetailFrom("User with id "+ id + " already hired", path), null);
+        super(HttpStatus.CONFLICT, problemDetailFrom("User with id "+ id + " already layoff", path), null);
     }
 
     private static ProblemDetail problemDetailFrom(String message, String path) {
