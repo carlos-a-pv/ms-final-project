@@ -36,7 +36,7 @@ public class RabbitmqEventListener {
         switch (event.eventType()){
             case "EMPLOYEE_CREATED" ->{
                 EmployeeCreatedEventDTO data = convert(event.data(), EmployeeCreatedEventDTO.class);
-                authService.createDefaultUser(data.email(), data.id());
+                authService.createDefaultUser(data);
             }
 
             case "EMPLOYEE_DELETED" -> {

@@ -1,5 +1,6 @@
 package com.example.jwt_security.service;
 
+import com.example.jwt_security.dto.EmployeeCreatedEventDTO;
 import com.example.jwt_security.dto.request.JwtRequestDTO;
 import com.example.jwt_security.dto.request.ResetPasswordDTO;
 import com.example.jwt_security.dto.request.UserRequestDTO;
@@ -15,6 +16,6 @@ public interface IAuthService {
     UserResponseDTO resetPassword(ResetPasswordDTO request);
     UserResponseDTO recoverPassword(String email);
     List<UserResponseDTO> getAllUsers();
-    String createDefaultUser(String email, Long id);
+    String createDefaultUser(EmployeeCreatedEventDTO eventDTO);
     void removeAccessCredientals(String email);
 }

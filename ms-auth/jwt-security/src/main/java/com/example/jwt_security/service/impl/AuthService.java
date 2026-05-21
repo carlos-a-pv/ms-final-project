@@ -1,6 +1,7 @@
 package com.example.jwt_security.service.impl;
 
 import com.example.jwt_security.constant.ApplicationConstant;
+import com.example.jwt_security.dto.EmployeeCreatedEventDTO;
 import com.example.jwt_security.dto.request.JwtRequestDTO;
 import com.example.jwt_security.dto.request.ResetPasswordDTO;
 import com.example.jwt_security.dto.request.UserRequestDTO;
@@ -56,7 +57,7 @@ public class AuthService implements IAuthService {
         if(user.getStatus().equals(Status.DISABLED))
             throw new UserDisabledException(ApplicationConstant.USER_DISABLED);
 
-        String token = jwtService.generateToken(user.getUsername(), Role.USER);
+        String token = jwtService.generateToken(user.getUsername(), user.getRole());
         return JwtResponseDTO.builder()
                 .token(token)
                 .username(user.getUsername())
@@ -134,22 +135,22 @@ public class AuthService implements IAuthService {
 
     @Override
     @Transactional
-    public String createDefaultUser(String email, Long id){
+    public String createDefaultUser(EmployeeCreatedEventDTO eventDTO){
 
-        Optional<User> userOptional = userRepository.findByUsername(email);
+        Optional<User> userOptional = userRepository.findByUsername(eventDTO.email());
 
         if(userOptional.isPresent()){
-            return jwtService.generateResetToken(email);
+            return jwtService.generateResetToken(eventDTO.email());
         }
 
         User userSaved = userRepository.save(User.builder()
-                .id(id)
-                .username(email)
-                .password(passwordEncoder.encode(email))
+                .username(eventDTO.email())
+                .password(passwordEncoder.encode(eventDTO.email()))
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .role(Role.USER)
                 .status(Status.DISABLED)
+                .employeeId(eventDTO.id())
                 .build());
 
         String token =  jwtService.generateResetToken(userSaved.getUsername());

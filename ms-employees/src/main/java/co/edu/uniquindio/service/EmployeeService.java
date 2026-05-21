@@ -26,7 +26,7 @@ public class EmployeeService implements IEmployeeService{
     private final DepartmentClient departmentClient;
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    public EmployeeService(EmployeeRepository employeeRepository,  DepartmentClient departmentClient,  MessageProducerService messageProducerService, ApplicationEventPublisher applicationEventPublisher) {
+    public EmployeeService(EmployeeRepository employeeRepository,  DepartmentClient departmentClient, ApplicationEventPublisher applicationEventPublisher) {
         this.employeeRepository = employeeRepository;
         this.departmentClient = departmentClient;
         this.applicationEventPublisher = applicationEventPublisher;

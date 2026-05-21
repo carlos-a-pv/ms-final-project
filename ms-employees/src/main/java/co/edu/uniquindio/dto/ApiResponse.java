@@ -1,6 +1,6 @@
 package co.edu.uniquindio.dto;
 
-import lombok.Builder;
+import lombok.*;
 
 import java.time.LocalDateTime;
 @Builder
